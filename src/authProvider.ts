@@ -2,7 +2,10 @@ import { AuthProvider } from "react-admin";
 
 export const authProvider: AuthProvider = {
     // called when the user attempts to log in
-    login: ({ username }) => {
+    login: ({ username, password }) => {
+        if (username !== 'test' || password !== 'test') {
+            return Promise.reject();
+        }
         localStorage.setItem("username", username);
         // accept all username/password combinations
         return Promise.resolve();

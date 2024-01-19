@@ -13,42 +13,41 @@ import {
     useRecordContext
 } from "react-admin";
 
-const postFilters = [
+const commentFilters = [
     <TextInput source="q" label="Search" alwaysOn />,
     <ReferenceInput source="userId" label="User" reference="users" />,
 ];
 
-export const PostList = () => (
-    <List filters={postFilters}>
+export const CommentList = () => (
+    <List filters={commentFilters}>
         <Datagrid>
             <TextField source="id" />
-            <TextField source="title" />
+            <ReferenceField source="postId" reference="posts" link="show" />    
+            <TextField source="body" />
             <EditButton />
         </Datagrid>
     </List>
 );
 
-const PostTitle = () => {
+const CommentBody = () => {
     const record = useRecordContext();
-    return <span>Post {record ? `"${record.title}"` : ''}</span>;
+    return <span>Post {record ? `"${record.body}"` : ''}</span>;
 };
 
-export const PostEdit = () => (
-    <Edit title={<PostTitle />}>
+export const CommentEdit = () => (
+    <Edit title={<CommentBody />}>
         <SimpleForm>
         <TextInput source="id" InputProps={{ disabled: true }} />
-            <ReferenceInput source="userId" reference="users" />
-            <TextInput source="title" />
+            <ReferenceInput source="postId" reference="posts" />
             <TextInput source="body" multiline rows={5} />
         </SimpleForm>
     </Edit>
 );
 
-export const PostCreate = () => (
+export const CommentCreate = () => (
     <Create>
         <SimpleForm>
-            <ReferenceInput source="userId" reference="users" />
-            <TextInput source="title" />
+            <ReferenceInput source="postId" reference="posts" />
             <TextInput source="body" multiline rows={5} />
         </SimpleForm>
     </Create>
